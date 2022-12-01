@@ -83,6 +83,8 @@ export default function App() {
     if (gameState.win) winner = "lose";
     else if (calculateWinner(gameState.squares)) winner = "win";
 
+    const filtered = gameState.squares.filter((f) => f === null).length === 0;
+
     const handleRestart = () => {
         if (winner) {
             socket.emit("send_restart", { message: "restart", room });
@@ -130,13 +132,12 @@ export default function App() {
                     <Button onClick={joinRoom}>Join</Button>
                 </>
             )}
-            {winner && (
-                <>
-                    <div className="status">{`You ${winner}`}</div>
-                    <Button className="restart" onClick={handleRestart}>
-                        Restart Game!
-                    </Button>
-                </>
+            {winner && <div className="status">{`You ${winner}`}</div>}
+            {filtered && <div className="status">Draw!</div>}
+            {(winner || filtered) && (
+                <Button className="restart" onClick={handleRestart}>
+                    Restart Game!
+                </Button>
             )}
         </Stack>
     );
