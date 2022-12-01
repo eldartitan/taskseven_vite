@@ -86,9 +86,7 @@ export default function App() {
     const filtered = gameState.squares.filter((f) => f === null).length === 0;
 
     const handleRestart = () => {
-        if (winner) {
-            socket.emit("send_restart", { message: "restart", room });
-        }
+        socket.emit("send_restart", { message: "restart", room });
         setGameState(emptySquares);
     };
 
